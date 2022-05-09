@@ -1,0 +1,14 @@
+{
+  "resourceName": "awstest",
+  "policyUUID": "8b5642f7",
+  "bucketName": "awstest",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
