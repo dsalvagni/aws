@@ -24,6 +24,7 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: release/qa
+          base: main
           delete-branch: true
           title: 'Release'
           body: |
