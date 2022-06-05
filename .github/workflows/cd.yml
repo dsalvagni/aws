@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Reset the default branch with upstream changes
         run: |
-          if git ls-remote --heads origin release/qa ; then exit; git checkout -b release/qa && git push origin release/qa && git checkout qa; fi
+          if git ls-remote --heads origin release/qa ; then exit; git checkout -b release/qa && git push origin release/qa && git checkout qa; fi 
 
       - name: Create Pull Request
         id: cpr
