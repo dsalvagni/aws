@@ -6,48 +6,28 @@ name: cd
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ qa ]
+    branches: [qa]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  createPullRequest:
+  createrelease:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: qa
-
-      - uses: actions/checkout@v3
-      - name: Create commits
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Initialize mandatory git config
         run: |
-          git config user.name '${{ github.actor }}'
-          git config user.email '${{ github.actor }}@users.noreply.github.com'
-          date +%s > report.txt
-          git add -A .
-          git commit -m "Modify tracked file during workflow"
-          date +%s > new-report.txt
-          git add -A .
-          git commit -m "Add untracked file during workflow"
+          git config user.name "${{ github.actor }}"
+          git config user.email ${{ github.actor }}@users.noreply.github.com
 
-      - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v4
+      - name: Push version update to qa
+        run: git push origin qa
+      - name: Create pull request into main
+        uses: thomaseizinger/create-pull-request@1.2.1
         with:
-          token: ${{ secrets.PAT }}
-          commit-message: Release
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: release/qa
-          base: qa
-          delete-branch: true
-          title: 'Release'
-          body: |
-            Auto-generated PR (via Github Actions manual workflow) to merge QA to RELEASE/QA. Intiated by ${{ github.actor }}.
-          labels: |
-            release
-            automated pr
-          team-reviewers: |
-            owners
-            maintainers
-          draft: false
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          head: qa
+          base: main
+          title: "[RELEASE] v${{ github.event.inputs.versionNumber }}"
+          labels: Release
