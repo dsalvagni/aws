@@ -13,13 +13,18 @@ jobs:
   createPullRequest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+     - uses: actions/checkout@v3
         with:
           ref: qa
-      - name: Reset react-qa branch
+
+      - uses: actions/checkout@v3
+      - name: Create commits
         run: |
-          git fetch origin qa
-          git reset --hard qa
+          date +%s > report.txt
+          git commit -am "Modify tracked file during workflow"
+          date +%s > new-report.txt
+          git add -A
+          git commit -m "Add untracked file during workflow"
 
       - name: Create Pull Request
         id: cpr
