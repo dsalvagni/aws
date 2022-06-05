@@ -28,5 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           head: qa
           base: main
-          title: "[RELEASE] v${{ github.event.inputs.versionNumber }}"
+          title: "[RELEASE]"
+          body: |
+            Author: ${{ github.actor }}
           labels: Release
