@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: release/qa
+          ref: qa
 
       - name: Create Pull Request
         id: cpr
@@ -27,7 +27,7 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: release/qa
-          base: qa
+          base: main
           delete-branch: true
           title: 'Release'
           body: |
