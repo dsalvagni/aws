@@ -31,7 +31,7 @@ jobs:
 
       - uses: peter-evans/rebase@v2
         with:
-          head: ${{github.repository}}:release-candidate
+          head: origin:release-candidate
           base: qa
         
       - name: Create pull request into main
