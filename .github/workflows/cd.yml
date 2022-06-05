@@ -36,7 +36,7 @@ jobs:
 
           git checkout release-candidate
           git rebase qa
-          git push --force-with-lease origin release-candidate
+          git push --force-with-lease origin
         
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
