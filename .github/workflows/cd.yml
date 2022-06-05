@@ -37,5 +37,6 @@ jobs:
           base: main
           title: "[RELEASE]"
           body: |
-            Author: ${{ github.actor }}
+            Release candidate for prod
+            Triggered originally by @${{ github.actor }}
           labels: Release
