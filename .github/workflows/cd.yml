@@ -18,7 +18,7 @@ jobs:
           ref: qa
       - name: Reset promotion branch
         run: |
-          git fetch origin qa:qa
+          git fetch origin qa
           git reset --hard qa
 
       - name: Create Pull Request
