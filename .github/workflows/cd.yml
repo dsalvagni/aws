@@ -24,9 +24,10 @@ jobs:
           git config user.email '${{ github.actor }}@users.noreply.github.com'
           date +%s > report.txt
           git add -A .
-          git commit -am "Modify tracked file during workflow"
+          git commit -m "Modify tracked file during workflow"
           date +%s > new-report.txt
-          git commit -am "Add untracked file during workflow"
+          git add -A .
+          git commit -m "Add untracked file during workflow"
 
       - name: Create Pull Request
         id: cpr
