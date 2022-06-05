@@ -15,18 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: qa
-      - name: Reset promotion branch
-        run: |
-          git fetch origin qa
-          git reset --hard qa
+          ref: release/qa
 
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT }}
-          commit-message: Release
+          commit-message: create PR to deploy react-dev to react-qa
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
@@ -35,7 +31,7 @@ jobs:
           delete-branch: true
           title: 'Release'
           body: |
-            This was auto-generated
+            Auto-generated PR (via Github Actions manual workflow) to merge QA to RELEASE/QA. Intiated by ${{ github.actor }}.
           labels: |
             release
             automated pr
