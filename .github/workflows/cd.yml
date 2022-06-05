@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Reset the default branch with upstream changes
+        run: |
+          git branch -D release/qa
+          git checkout qa
+          git checkout -b release/qa
 
       - name: Create Pull Request
         id: cpr
