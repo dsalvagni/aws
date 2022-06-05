@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: qa
+      - name: Reset promotion branch
+        run: |
+          git fetch origin qa:qa
+          git reset --hard qa
 
       - name: Create Pull Request
         id: cpr
