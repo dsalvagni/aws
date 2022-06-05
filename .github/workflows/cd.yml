@@ -29,14 +29,10 @@ jobs:
           branch: 'release-candidate'
           sha: '${{ github.event.pull_request.head.sha }}'
 
-      - name: Rebase
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email ${{ github.actor }}@users.noreply.github.com
-
-          git checkout release-candidate
-          git rebase qa
-          git push --force-with-lease origin
+      - uses: peter-evans/rebase@v2
+        with:
+          head: ${{github.repository}}:release-candidate
+          base: qa
         
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
