@@ -26,12 +26,12 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT }}
-          commit-message: create PR to deploy react-dev to react-qa
+          commit-message: Release
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: release/qa
-          base: main
+          base: qa
           delete-branch: true
           title: 'Release'
           body: |
