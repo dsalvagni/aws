@@ -20,7 +20,7 @@ jobs:
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email ${{ github.actor }}@users.noreply.github.com
-          if git ls-remote --heads origin release/production ; then exit ; git checkout qa && git checkout -b release/production && git push origin release/production fi
+          if git ls-remote --heads origin release/production ; then exit ; git checkout qa && git checkout -b release/production && git push origin release/production; fi
 
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
