@@ -16,8 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Reset the default branch with upstream changes
         run: |
-          git checkout qa
-          git ls-remote --heads ${REPO} ${BRANCH} | grep ${BRANCH} >/dev/null 
+          git ls-remote --heads origin release/qa | grep release/qa >/dev/null 
           if [ "$?" == "1" ] ; then git checkout release/qa; git checkout -b release/qa; fi
 
       - name: Create Pull Request
