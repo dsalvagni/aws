@@ -21,8 +21,7 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email ${{ github.actor }}@users.noreply.github.com
 
-      - name: Push version update to qa
-        run: git push origin qa
+
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
         with:
