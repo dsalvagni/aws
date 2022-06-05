@@ -14,9 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Reset the default branch with upstream changes
-        run: |
-          if git ls-remote --heads origin release/qa ; then exit; git checkout -b release/qa && git push origin release/qa && git checkout qa; fi 
 
       - name: Create Pull Request
         id: cpr
@@ -28,11 +25,11 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: release/qa
-          base: main
+          base: qa
           delete-branch: true
           title: 'Release'
           body: |
-            This was auto-create
+            This was auto-generated
           labels: |
             release
             automated pr
