@@ -6,7 +6,7 @@ name: cd
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [qa] 
+    branches: [staging] 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -29,10 +29,15 @@ jobs:
           branch: 'release-candidate'
           sha: '${{ github.event.pull_request.head.sha }}'
 
-      - uses: peter-evans/rebase@v2
-        with:
-          head: origin:release-candidate
-          base: qa
+      - name: Rebase
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email ${{ github.actor }}@users.noreply.github.com
+          
+          git fetch origin staging
+          git checkout release-candidate
+          git rebase staging
+          git push --force-with-lease origin 
         
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
