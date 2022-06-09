@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && curl -X POST --data-urlencode 'payload={\"channel\": \"#builds\", \"text\": \"New Build Incoming!\"}' https://webhook.site/ef0f049a-43ae-4d34-8b9d-34c5bb335392",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

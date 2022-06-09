@@ -7,6 +7,9 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [staging] 
+    
+env:
+  GITHUB_TOKEN: ${{ secrets.PAT }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -17,28 +20,18 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ env.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-          
-      - name: Initialize mandatory git config
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email ${{ github.actor }}@users.noreply.github.com
 
       - name: Create release branch
         uses: peterjgrainger/action-create-branch@v2.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           branch: 'release-candidate'
           sha: '${{ github.event.pull_request.head.sha }}'
 
       - name: Rebase
         run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email ${{ github.actor }}@users.noreply.github.com
-          
           git fetch origin staging
           git fetch origin release-candidate
           git checkout release-candidate
@@ -48,7 +41,6 @@ jobs:
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
         with:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
           head: release-candidate
           base: main
           title: "[RELEASE]"
