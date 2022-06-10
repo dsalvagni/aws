@@ -40,7 +40,7 @@ jobs:
         
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
-        if: $(git rev-parse origin/release-candidate) != $(git rev-parse origin/staging)
+        if: ${{ $(git rev-parse develop) == $(git rev-parse feature/SPRINT_WSMR_UPDATES) }}
         with:
           head: release-candidate
           base: main
