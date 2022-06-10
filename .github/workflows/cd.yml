@@ -33,7 +33,7 @@ jobs:
           
       - name: Check for changes
         run: |
-          if [ -z "$(git --no-pager log --left-right --cherry-pick --oneline release-candidate...staging)" ]
+          if [ -z "$(git --no-pager log --left-right --cherry-pick --oneline release-candidate...staging)" ]; then
             echo "::set-env name=HAS_CHANGES::false"
           else
             echo "::set-env name=HAS_CHANGES::true"
