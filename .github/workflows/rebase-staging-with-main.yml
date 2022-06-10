@@ -17,14 +17,19 @@ jobs:
           token: ${{ secrets.PAT }}
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-
-      - name: Initialize mandatory git config
+          
+      - name: Check for changes
+        id: check-for-changes
         run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email ${{ github.actor }}@users.noreply.github.com
-
+          if [ -z "$(git --no-pager log --left-right --cherry-pick --oneline release-candidate...staging)" ]; then
+            echo "::set-output name=HAS_CHANGES::false"
+          else
+            echo "::set-output name=HAS_CHANGES::true"
+          fi
+          
       # It will always rebase `staging` with the latest `main`
       - name: Rebase
+        if: ${{ steps.check-for-changes.outputs.HAS_CHANGES == 'true' }}
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email ${{ github.actor }}@users.noreply.github.com
