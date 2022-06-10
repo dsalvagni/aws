@@ -10,7 +10,6 @@ on:
     
 env:
   GITHUB_TOKEN: ${{ secrets.PAT }}
-  HAS_CHANGES: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,15 +31,16 @@ jobs:
           sha: '${{ github.event.pull_request.head.sha }}'
           
       - name: Check for changes
+        id: check-for-changes
         run: |
           if [ -z "$(git --no-pager log --left-right --cherry-pick --oneline release-candidate...staging)" ]; then
-            echo "::set-env name=HAS_CHANGES::false"
+            echo "::set-output name=HAS_CHANGES::false"
           else
-            echo "::set-env name=HAS_CHANGES::true"
+            echo "::set-output name=HAS_CHANGES::true"
           fi
 
       - name: Rebase
-        if: ${{ env.HAS_CHANGES == 'true' }}
+        if: ${{ steps.check-for-changes.outputs.HAS_CHANGES == 'true' }}
         run: |
           git fetch origin staging
           git fetch origin release-candidate
@@ -50,7 +50,7 @@ jobs:
           
       - name: Create pull request into main
         uses: thomaseizinger/create-pull-request@1.2.1
-        if: ${{ env.HAS_CHANGES == 'true' }}
+        if: ${{ steps.check-for-changes.outputs.HAS_CHANGES == 'true' }}
         with:
           head: release-candidate
           base: main
